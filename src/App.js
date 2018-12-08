@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import CardImage from './components/cardImage';
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: []
+    };
+
+  }
+
+  componentWillMount() {
+    const oReq = new XMLHttpRequest();
+    oReq.onload = function (e) {
+      const sRes = oReq.response; // not responseText
+      const oRes = JSON.parse(sRes);
+      this.setState({
+        data: [oRes[0]]
+      })
+    }.bind(this)
+    oReq.open("GET", "https://jsonplaceholder.typicode.com/comments");
+    oReq.send()
+
+  }
+
   render() {
+    const { data } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="card-columns">
+        {data.map((curr, i) => <CardImage {...curr} key={i} />)}
       </div>
     );
   }
