@@ -16,7 +16,8 @@ class App extends Component {
       const sRes = oReq.response; // not responseText
       const oRes = JSON.parse(sRes);
       this.setState({
-        data: [oRes[0]]
+        // data: [oRes[0]]
+        data: oRes
       })
     }.bind(this)
     oReq.open("GET", "https://jsonplaceholder.typicode.com/comments");
